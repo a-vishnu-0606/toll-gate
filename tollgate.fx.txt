@@ -1,0 +1,373 @@
+package application;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+class TollFile
+{
+    protected String vecno;
+    protected String start;
+    protected String destination;
+    private int n,i=0,j=1,op,price=0,cal1;
+    double vip=0;
+    public void display()
+    {
+       System.out.println("\n");
+       System.out.println("Vechical number --"+vecno);
+       System.out.println("\n");
+       System.out.println("starting place --"+start);
+       System.out.println("\n");
+       System.out.println("destination place --"+destination);
+       System.out.println("\n");
+    }
+    public TollFile(String vn,String s,String d)
+    {
+        vecno=vn;
+        start=s;
+        destination=d;
+    }
+    public void cal()
+    {
+        int k;
+        Scanner sc=new Scanner(System.in);
+        System.out.print("Enter no of tollgates crossed by the vechicle : ");
+        n=sc.nextInt();
+        k=n;
+        while(k>i)
+        {
+           
+            System.out.print("Enter price of the vechicle crossed in tool plaza "+j+" : ");
+            int num=sc.nextInt();
+            price=price+num;
+            System.out.println("price at the end of"+j+" toll gate is : "+price);
+            cal1=price;
+            j=j+1;
+            k=k-1;
+        }
+        System.out.println("Type of Customer : ");
+        System.out.println("\n1. Normal customer \n2. VIP customer");
+        op=sc.nextInt();
+        if(op==1)
+        {
+            System.out.println("Total price of your vechicle in tool plaza is : "+(cal1));
+         }
+         else if(op==2)
+        {
+            int c;
+            vip=cal1*0.2;
+            vip=cal1-vip;
+            System.out.println("Total price of your vechicle in tool plaza is : "+(vip));
+           
+        }
+    }  
+}
+
+
+public class TollGateFile extends Application
+{
+static FileWriter fw = null;
+int buttonClickedCount = 0;
+  public static void main(String args[]) throws IOException
+  {
+ try{    
+ String property = System.getProperty("user.home");
+          fw=new FileWriter(property+"/Desktop/"+"newfile.txt", true);
+         
+          fw.write("\nTollGate Program:");    
+             
+          launch(args);
+         
+         }catch(Exception e){System.out.println(e);}
+ finally {
+ fw.close();
+ }
+ 
+   
+  }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+    primaryStage.setTitle("Toll Gate");
+
+    VBox root = new VBox();  
+    
+     Text sceneTitle = new Text(" \n\t\t TOLL GATE PROCESSING FORM");
+     sceneTitle.setFont(Font.font("Helvetica", FontWeight.NORMAL, 40));
+     root.getChildren().addAll(sceneTitle);
+
+    Text text1 = new Text();  
+    text1.setText("Vehicle Type : ");  
+    TextField textField1 = new TextField();
+
+    Text text2 = new Text();  
+    text2.setText("Vehicle Number : ");  
+    TextField textField2 = new TextField();
+
+    Text text3 = new Text();  
+    text3.setText("Starting Place : ");  
+    TextField textField3 = new TextField();
+
+    Text text4 = new Text();  
+    text4.setText("Destination Place : ");  
+    TextField textField4 = new TextField();
+
+    Text text8 = new Text();  
+    text8.setText("Whether You Are VIP or Not? : ");  
+
+
+    String vn = textField2.getText();
+    String s = textField3.getText();
+    String d = textField4.getText();
+
+    Toll t=new Toll(vn,s,d);
+    Text text5 = new Text();  
+    text5.setText("Enter no of tollgates crossed by the vechicle : ");  
+    TextField textField5 = new TextField();
+
+
+    Text vipText = new Text();  
+
+
+    Button btn2 = new Button();
+    btn2.setText("YES");
+    btn2.setOnAction(new EventHandler<ActionEvent>() {
+    @Override
+    public void handle(ActionEvent event) {
+    vipText.setText("true");
+    }
+    });
+
+    Button btn3 = new Button();
+    btn3.setText("NO");
+    btn3.setOnAction(new EventHandler<ActionEvent>() {
+    @Override
+    public void handle(ActionEvent event) {
+    vipText.setText("false");
+    }
+    });
+
+    Button btn1 = new Button();
+    btn1.setText("Submit");
+    btn1.setOnAction(new EventHandler<ActionEvent>() {
+
+    @Override
+    public void handle(ActionEvent event) {
+
+   
+    try {
+fw.write("\nVehicle Type : "+textField1.getText());
+fw.write("\nVehicle Number : "+textField2.getText());
+fw.write("\nStarting Place : "+textField3.getText());
+fw.write("\nDestination Place : "+textField4.getText());
+fw.write("\nNo. of tollgates crossed by the vechicle : "+textField5.getText());
+} catch (IOException e1) {
+System.out.print("Exception when writing to file");
+}
+   
+    int n = Integer.parseInt(textField5.getText());
+    int k = n;
+    int i =0;
+    int j=1;
+    int price=0;
+    int cal1 = 0;
+
+    Text priceText = new Text();
+    priceText.setText(price+"");
+
+    Text cal1Text = new Text();
+    cal1Text.setText(cal1+"");
+
+    Text jText = new Text();
+    jText.setText(j+"");
+
+    Text kText = new Text();
+    kText.setText(k+"");
+
+
+    Text text6 = new Text();  
+    text6.setText("Enter price of the vechicle crossed in tool plaza : ");  
+    TextField textField6 = new TextField();
+
+    Button btn2 = new Button();
+    btn2.setText("Submit");
+    btn2.setOnAction(new EventHandler<ActionEvent>() {
+
+    @Override
+    public void handle(ActionEvent event) {
+
+    buttonClickedCount++;
+    int num = Integer.parseInt(textField6.getText());
+
+    int price = Integer.parseInt(priceText.getText());
+
+    price=price+num;
+
+    priceText.setText(price+"");
+
+    Text text7 = new Text();  
+    text7.setText("price at the end of toll gate "+buttonClickedCount+" is : "+price);  
+
+    try {
+    fw.write("\nprice at the end of toll gate "+buttonClickedCount+" is : "+price);
+    System.out.println("Message is written in file ::: price at the end of toll gate "+buttonClickedCount+" is : "+price);
+    } catch (IOException e) {
+    System.out.println("Exception occurred when writing message to file");
+    }
+
+    int cal1 = Integer.parseInt(cal1Text.getText());
+    int j = Integer.parseInt(jText.getText());
+    int k = Integer.parseInt(kText.getText());
+
+    cal1=price;
+    j=j+1;
+    k=k-1;
+
+    cal1Text.setText(cal1+"");
+    jText.setText(j+"");
+    kText.setText(k+"");
+
+    root.getChildren().addAll(text7);
+    }
+    });
+
+    Button btn4 = new Button();
+    btn4.setText("Final Result");
+    btn4.setOnAction(new EventHandler<ActionEvent>() {
+
+    @Override
+    public void handle(ActionEvent event) {
+
+    String vipText1 = vipText.getText();
+    int cal1 = Integer.parseInt(cal1Text.getText());
+    double vip=0;
+    if(vipText1.equals("true")) {
+    vip=cal1*0.2;
+    vip=cal1-vip;
+
+    Text text10 = new Text();  
+    text10.setText("VIP Customer : Total price of your vechicle in tool plaza is : "+(vip));
+
+   
+    try {
+        fw.write("\nVIP Customer : Total price of your vechicle in tool plaza is : "+(vip));
+        } catch (IOException e) {
+        System.out.println("Exception occurred when writing message to file");
+        }
+
+    root.getChildren().addAll(text10);
+    }
+    else {
+
+    Text text11 = new Text();  
+    text11.setText("Normal Customer : Total price of your vechicle in tool plaza is : "+(cal1));
+
+    try {
+        fw.write("\nNormal Customer : Total price of your vechicle in tool plaza is : "+(cal1));
+        } catch (IOException e) {
+        System.out.println("Exception occurred when writing message to file");
+        }
+   
+    root.getChildren().addAll(text11);
+
+    }
+
+    Text text15 = new Text();
+    text15.setText(text1.getText()+" "+textField1.getText());
+
+    Text text16 = new Text();
+    text16.setText(text2.getText()+" "+textField2.getText());
+
+    Text text17 = new Text();
+    text17.setText(text3.getText()+" "+textField3.getText());
+    Text text18 = new Text();
+    text18.setText(text4.getText()+" "+textField4.getText());
+    root.getChildren().addAll(text15,text16,text17,text18 );
+   
+    try {
+    fw.close();    
+    System.out.println("File closed successfully");
+    }catch(Exception ex) {
+    System.out.println("Exception occurred with closing file");
+    }
+    }
+    });
+
+    Button btnOpenNewWindow = new Button();
+    btnOpenNewWindow.setText("Print File");
+    btnOpenNewWindow.setOnAction(new EventHandler<ActionEvent>() {
+       public void handle(ActionEvent event) {
+          try {
+               Stage stage = new Stage();
+               stage.setTitle("File Contents");
+               
+               Text secondText = new Text();
+               
+    //read the file contents
+        String fileContentsStr = "Contents from File\n";
+       
+        try {
+        String property = System.getProperty("user.home");
+    FileReader fr = new FileReader(property+"/Desktop/"+"newfile.txt");
+    int i;    
+        while((i=fr.read())!=-1) {
+        System.out.print((char)i);  
+        fileContentsStr += (char)i;
+        }
+        fileContentsStr+="\n\n";
+        fr.close();
+       
+        secondText.setText(fileContentsStr);
+       
+    } catch (FileNotFoundException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+    } catch (IOException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+    }    
+    StackPane secondaryLayout = new StackPane();
+    secondaryLayout.getChildren().add(secondText);
+   
+    stage.setScene(new Scene(secondaryLayout, 1000, 1000));
+               stage.show();
+               // Hide this current window (if this is what you want)
+               //((Node)(event.getSource())).getScene().getWindow().hide();
+           }
+           catch (Exception e) {
+               e.printStackTrace();
+           }
+       }
+    });
+    root.getChildren().addAll(text6, textField6, btn2, btn4, btnOpenNewWindow);
+    }
+    });
+    Scene scene = new Scene(root,1000,1000);  
+    root.getChildren().addAll(text1, textField1, text2, textField2, text3, textField3, text4, textField4, text8 , btn2 , btn3 ,text5, textField5, btn1);  
+    primaryStage.setScene(scene);
+    primaryStage.show();
+    }
+// TODO Auto-generated method stub
+}
